@@ -1,13 +1,13 @@
 <template>
   <div style="display: flex">
     <time-picker
-  v-model="time"
-  :disabled-hours="disabledHours"           
-  :disabled-minutes="disabledMinutes"
-  :disabled-seconds="disabledSeconds"
-  :use-seconds="true"
->
-</time-picker>
+      v-model="time"
+      :disabled-hours="disabledHours"
+      :disabled-minutes="disabledMinutes"
+      :disabled-seconds="disabledSeconds"
+      use-seconds
+    >
+    </time-picker>
 
     {{ time }}
   </div>
@@ -23,9 +23,9 @@ import timePicker from "./components/timePicker.vue";
 
 const time = ref<Date | null | string>(null);
 const hidden = ref(false);
-const disabledHours = ref([0,1,2,3,4,5,6,7,8,9,23]);
+const disabledHours = ref([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 23]);
 const disabledMinutes = ref([]);
-const disabledSeconds = ref([5,10]);
+const disabledSeconds = ref([5, 10]);
 
 const setVal = () => {
   time.value = "12:04:04";
@@ -47,9 +47,9 @@ const generateDisabledMinutes = () => {
     }
   }
   return disabledMinutes;
-}
+};
 
 onMounted(() => {
-  disabledMinutes.value = generateDisabledMinutes()
-})
+  disabledMinutes.value = generateDisabledMinutes();
+});
 </script>

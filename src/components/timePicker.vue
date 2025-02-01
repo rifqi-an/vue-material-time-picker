@@ -85,7 +85,7 @@ const props = withDefaults(
   }>(),
   {
     color: "#3ba13b",
-    automatic: true
+    automatic: true,
   }
 );
 
@@ -96,7 +96,7 @@ const state = reactive({
   lazyInputHour: null as number | null,
   lazyInputMinute: null as number | null,
   lazyInputSecond: null as number | null,
-  selecting: SelectingTimes.Hour
+  selecting: SelectingTimes.Hour,
 });
 
 const setInputData = (value: string | null | Date) => {
@@ -117,7 +117,7 @@ const setInputData = (value: string | null | Date) => {
 };
 
 const styles = computed(() => ({
-  width: props.fullWidth ? undefined : convertToUnit(props.width || 290)
+  width: props.fullWidth ? undefined : convertToUnit(props.width || 290),
 }));
 
 const genValue = () => {
@@ -217,8 +217,10 @@ watch(
 
 const disabledValues = computed(() => {
   if (state.selecting === SelectingTimes.Hour) return props.disabledHours || [];
-  if (state.selecting === SelectingTimes.Minute) return props.disabledMinutes || [];
-  if (state.selecting === SelectingTimes.Second) return props.disabledSeconds || [];
+  if (state.selecting === SelectingTimes.Minute)
+    return props.disabledMinutes || [];
+  if (state.selecting === SelectingTimes.Second)
+    return props.disabledSeconds || [];
   return [];
 });
 </script>

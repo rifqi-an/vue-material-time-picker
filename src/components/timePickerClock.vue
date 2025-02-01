@@ -12,17 +12,17 @@
         @touchmove="onDragMove"
         class="time-picker-clock"
         :class="{
-          'time-picker-clock--indeterminate': value == null
+          'time-picker-clock--indeterminate': value == null,
         }"
       >
         <div ref="innerClock" class="time-picker-clock__inner">
           <div
             class="time-picker-clock__hand"
             :style="{
-              ...clockHandStyle
+              ...clockHandStyle,
             }"
             :class="{
-              'time-picker-clock__hand--inner': isInner(value)
+              'time-picker-clock__hand--inner': isInner(value),
             }"
           />
           <span
@@ -31,7 +31,9 @@
             class="time-picker-clock__item"
             :class="{
               'time-picker-clock__item--active': v === displayedValue,
-             'time-picker-clock__item--disabled': props.disabled || (props.disabledValues && props.disabledValues.includes(v))
+              'time-picker-clock__item--disabled':
+                props.disabled ||
+                (props.disabledValues && props.disabledValues.includes(v)),
             }"
             :style="getTransform(v)"
           >
@@ -48,7 +50,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
@@ -81,7 +82,7 @@ const state = reactive({
   inputValue: props.value,
   isDragging: false,
   valueOnMouseDown: null as number | null,
-  valueOnMouseUp: null as number | null
+  valueOnMouseUp: null as number | null,
 });
 
 const values = computed(() => {
@@ -115,7 +116,7 @@ const clockHandStyle = computed(() => ({
       ? props.disabled
         ? "#8d7d7d"
         : props.color
-      : undefined
+      : undefined,
 }));
 
 const displayedValue = computed(() =>
@@ -138,7 +139,7 @@ const getPosition = (value: number) => {
       handScale(value),
     y:
       -Math.cos((value - props.min) * degrees.value + rotateRadians) *
-      handScale(value)
+      handScale(value),
   };
 };
 
@@ -152,7 +153,7 @@ const getTransform = (i: number) => {
           : props.color
         : undefined,
     left: `${50 + x * 50}%`,
-    top: `${50 + y * 50}%`
+    top: `${50 + y * 50}%`,
   };
 };
 
@@ -206,12 +207,16 @@ const onDragMove = (e: MouseEvent | TouchEvent) => {
     const handAngle = Math.round(angle(center, coords) - 0 + 360) % 360;
     const insideClick =
       selectingHour.value &&
-      euclidean(center, coords) < (innerWidth + innerWidth * innerRadiusScale) / 4;
+      euclidean(center, coords) <
+        (innerWidth + innerWidth * innerRadiusScale) / 4;
     const checksCount = Math.ceil(15 / degreesPerUnit.value);
 
     let value;
     for (let i = 0; i < checksCount; i++) {
-      let newValue = angleToValue(handAngle + i * degreesPerUnit.value, insideClick);
+      let newValue = angleToValue(
+        handAngle + i * degreesPerUnit.value,
+        insideClick
+      );
       if (props.disabledValues && props.disabledValues.includes(newValue)) {
         continue;
       }
