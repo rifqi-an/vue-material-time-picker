@@ -42,7 +42,7 @@ const changed = () => {
 const generateDisabledMinutes = () => {
   const disabledMinutes = [];
   for (let i = 0; i < 60; i++) {
-    if (i % 5 !== 0) {
+    if (i % 10 !== 0) {
       disabledMinutes.push(i);
     }
   }
