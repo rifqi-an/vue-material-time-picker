@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import timePicker from "./components/timePicker.vue";
 
 const time = ref<Date | null | string>(null);
