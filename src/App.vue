@@ -2,13 +2,13 @@
   <div style="display: flex">
     <time-picker
       v-model="time"
+      v-if="!hidden"
+      use-seconds
       :disabled-hours="disabledHours"
       :disabled-minutes="disabledMinutes"
       :disabled-seconds="disabledSeconds"
-      use-seconds
     >
     </time-picker>
-
     {{ time }}
   </div>
   <div style="display: flex">
