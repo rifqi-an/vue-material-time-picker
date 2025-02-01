@@ -41,6 +41,7 @@
           ? state.inputMinute
           : state.inputSecond
       "
+      :disabled-values="disabledValues"
     />
   </div>
 </template>
@@ -78,6 +79,9 @@ const props = withDefaults(
     color?: string;
     modelValue: string | null | Date;
     width?: number | string;
+    disabledHours?: number[];
+    disabledMinutes?: number[];
+    disabledSeconds?: number[];
   }>(),
   {
     color: "#3ba13b",
@@ -210,4 +214,11 @@ watch(
   () => props.modelValue,
   (val) => setInputData(val)
 );
+
+const disabledValues = computed(() => {
+  if (state.selecting === SelectingTimes.Hour) return props.disabledHours || [];
+  if (state.selecting === SelectingTimes.Minute) return props.disabledMinutes || [];
+  if (state.selecting === SelectingTimes.Second) return props.disabledSeconds || [];
+  return [];
+});
 </script>

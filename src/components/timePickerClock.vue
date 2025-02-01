@@ -31,7 +31,7 @@
             class="time-picker-clock__item"
             :class="{
               'time-picker-clock__item--active': v === displayedValue,
-              'time-picker-clock__item--disabled': props.disabled
+             'time-picker-clock__item--disabled': props.disabled || (props.disabledValues && props.disabledValues.includes(v))
             }"
             :style="getTransform(v)"
           >
@@ -48,6 +48,7 @@
     </div>
   </div>
 </template>
+
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
@@ -73,6 +74,7 @@ const props = defineProps<{
   min: number;
   max: number;
   step: number;
+  disabledValues?: number[];
 }>();
 
 const state = reactive({
@@ -184,6 +186,9 @@ const update = (value: number) => {
 };
 
 const setMouseDownValue = (value: number) => {
+  if (props.disabledValues && props.disabledValues.includes(value)) {
+    return;
+  }
   if (state.valueOnMouseDown === null) state.valueOnMouseDown = value;
   state.valueOnMouseUp = value;
   update(value);
@@ -201,14 +206,16 @@ const onDragMove = (e: MouseEvent | TouchEvent) => {
     const handAngle = Math.round(angle(center, coords) - 0 + 360) % 360;
     const insideClick =
       selectingHour.value &&
-      euclidean(center, coords) <
-        (innerWidth + innerWidth * innerRadiusScale) / 4;
+      euclidean(center, coords) < (innerWidth + innerWidth * innerRadiusScale) / 4;
     const checksCount = Math.ceil(15 / degreesPerUnit.value);
-    let value;
 
+    let value;
     for (let i = 0; i < checksCount; i++) {
-      value = angleToValue(handAngle + i * degreesPerUnit.value, insideClick);
-      return setMouseDownValue(value);
+      let newValue = angleToValue(handAngle + i * degreesPerUnit.value, insideClick);
+      if (props.disabledValues && props.disabledValues.includes(newValue)) {
+        continue;
+      }
+      return setMouseDownValue(newValue);
     }
   }
 };
@@ -238,7 +245,6 @@ watch(
 </script>
 
 <style lang="sass" scoped>
-
 .time-picker-clock
   background-color: #eee
   font-family: Roboto
@@ -251,7 +257,7 @@ watch(
   flex: 1 0 auto
 
   &__item--disabled
-    color: pink
+    color: #bababa
 
     &.time-picker-clock__item--active
       color: purple
